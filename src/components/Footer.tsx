@@ -1,5 +1,13 @@
-import { Link } from "react-router-dom"
-import { Facebook, Twitter, Instagram, Youtube, MapPin, Phone, Mail } from "lucide-react"
+import { Link } from "react-router-dom";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Youtube,
+  MapPin,
+  Phone,
+  Mail,
+} from "lucide-react";
 
 export function Footer() {
   return (
@@ -15,7 +23,8 @@ export function Footer() {
               <span className="text-xl font-bold">Vybe Trybe</span>
             </div>
             <p className="text-gray-300 text-sm">
-              One Vybe. One Trybe. One Kenya. Empowering youth through unity, collaboration, and positive change.
+              One Vybe. One Trybe. One Nation. Empowering youth through unity,
+              collaboration, and positive change.
             </p>
             <div className="flex space-x-4">
               <Facebook className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
@@ -29,16 +38,28 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Quick Links</h3>
             <div className="space-y-2">
-              <Link to="/about" className="block text-gray-300 hover:text-white transition-colors text-sm">
+              <Link
+                to="/about"
+                className="block text-gray-300 hover:text-white transition-colors text-sm"
+              >
                 About Us
               </Link>
-              <Link to="/events" className="block text-gray-300 hover:text-white transition-colors text-sm">
+              <Link
+                to="/events"
+                className="block text-gray-300 hover:text-white transition-colors text-sm"
+              >
                 Events
               </Link>
-              <Link to="/projects" className="block text-gray-300 hover:text-white transition-colors text-sm">
+              <Link
+                to="/projects"
+                className="block text-gray-300 hover:text-white transition-colors text-sm"
+              >
                 Projects
               </Link>
-              <Link to="/news" className="block text-gray-300 hover:text-white transition-colors text-sm">
+              <Link
+                to="/news"
+                className="block text-gray-300 hover:text-white transition-colors text-sm"
+              >
                 News & Media
               </Link>
             </div>
@@ -48,16 +69,28 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Get Involved</h3>
             <div className="space-y-2">
-              <Link to="/join" className="block text-gray-300 hover:text-white transition-colors text-sm">
+              <Link
+                to="/join"
+                className="block text-gray-300 hover:text-white transition-colors text-sm"
+              >
                 Join the Trybe
               </Link>
-              <Link to="/checheza-mtaani" className="block text-gray-300 hover:text-white transition-colors text-sm">
+              <Link
+                to="/checheza-mtaani"
+                className="block text-gray-300 hover:text-white transition-colors text-sm"
+              >
                 Checheza Mtaani
               </Link>
-              <Link to="/get-involved" className="block text-gray-300 hover:text-white transition-colors text-sm">
+              <Link
+                to="/get-involved"
+                className="block text-gray-300 hover:text-white transition-colors text-sm"
+              >
                 Volunteer
               </Link>
-              <Link to="/contact" className="block text-gray-300 hover:text-white transition-colors text-sm">
+              <Link
+                to="/contact"
+                className="block text-gray-300 hover:text-white transition-colors text-sm"
+              >
                 Contact Us
               </Link>
             </div>
@@ -77,7 +110,7 @@ export function Footer() {
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 text-yellow-500" />
-                <span className="text-gray-300 text-sm">info@vybetrybe.co.ke</span>
+                <span className="text-gray-300 text-sm">info@vybe.africa</span>
               </div>
             </div>
           </div>
@@ -85,10 +118,11 @@ export function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400 text-sm">
-            © 2024 Vybe Trybe. All rights reserved. Built with ❤️ for Kenyan Youth.
+            © 2025 Vybe Trybe. All rights reserved. Built with ❤️ by and for
+            Kenyan Youth.
           </p>
         </div>
       </div>
     </footer>
-  )
+  );
 }
