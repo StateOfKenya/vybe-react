@@ -1,32 +1,32 @@
-import { useState } from "react"
-import { Link, useLocation, useNavigate } from "react-router-dom"
-import { Menu, X, LogOut, User } from "lucide-react"
-import { Button } from "./ui/button"
-import { useAuth } from "@/contexts/AuthContext"
-import { cn } from "@/lib/utils"
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, LogOut, User } from "lucide-react";
+import { Button } from "./ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { cn } from "@/lib/utils";
 
 export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { user, logout } = useAuth()
-  const location = useLocation()
-  const navigate = useNavigate()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout()
-    navigate("/login")
-  }
+    logout();
+    navigate("/login");
+  };
 
   const navigation = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
-    { name: "Join Trybe", href: "/join" },
+    { name: "Join Tribe", href: "/join" },
     { name: "Events", href: "/events" },
     { name: "Checheza Mtaani", href: "/checheza-mtaani" },
     { name: "Projects", href: "/projects" },
     { name: "News", href: "/news" },
     { name: "Get Involved", href: "/get-involved" },
     { name: "Contact", href: "/contact" },
-  ]
+  ];
 
   return (
     <header className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-red-200/50">
@@ -38,7 +38,7 @@ export function Header() {
               <span className="text-white font-bold text-sm">VT</span>
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent">
-              Vybe Trybe
+              Vybe Tribe
             </span>
           </Link>
 
@@ -77,10 +77,15 @@ export function Header() {
             ) : (
               <div className="hidden sm:flex space-x-2">
                 <Link to="/login">
-                  <Button variant="ghost" size="sm">Login</Button>
+                  <Button variant="ghost" size="sm">
+                    Login
+                  </Button>
                 </Link>
                 <Link to="/register">
-                  <Button size="sm" className="bg-gradient-to-r from-red-500 to-green-500 hover:from-red-600 hover:to-green-600">
+                  <Button
+                    size="sm"
+                    className="bg-gradient-to-r from-red-500 to-green-500 hover:from-red-600 hover:to-green-600"
+                  >
                     Join Now
                   </Button>
                 </Link>
@@ -94,7 +99,11 @@ export function Header() {
               className="lg:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
             </Button>
           </div>
         </div>
@@ -122,12 +131,19 @@ export function Header() {
             {!user && (
               <div className="pt-2 space-y-2">
                 <Link to="/login" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="ghost" size="sm" className="w-full justify-start">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start"
+                  >
                     Login
                   </Button>
                 </Link>
                 <Link to="/register" onClick={() => setIsMenuOpen(false)}>
-                  <Button size="sm" className="w-full bg-gradient-to-r from-red-500 to-green-500">
+                  <Button
+                    size="sm"
+                    className="w-full bg-gradient-to-r from-red-500 to-green-500"
+                  >
                     Join Now
                   </Button>
                 </Link>
@@ -137,5 +153,5 @@ export function Header() {
         </div>
       )}
     </header>
-  )
+  );
 }

@@ -1,68 +1,93 @@
-import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
-import { Calendar, User, ArrowRight, Filter, Search } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { getNews, NewsArticle } from "@/api/news"
-import { useToast } from "@/hooks/useToast"
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Calendar, User, ArrowRight, Filter, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { getNews, NewsArticle } from "@/api/news";
+import { useToast } from "@/hooks/useToast";
 
 export function News() {
-  const [articles, setArticles] = useState<NewsArticle[]>([])
-  const [filteredArticles, setFilteredArticles] = useState<NewsArticle[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [categoryFilter, setCategoryFilter] = useState("all")
-  const { toast } = useToast()
+  const [articles, setArticles] = useState<NewsArticle[]>([]);
+  const [filteredArticles, setFilteredArticles] = useState<NewsArticle[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const { toast } = useToast();
 
-  const categories = ["News", "Tournament", "Environment", "Politics", "Opinion", "Interview"]
+  const categories = [
+    "News",
+    "Tournament",
+    "Environment",
+    "Politics",
+    "Opinion",
+    "Interview",
+  ];
 
   useEffect(() => {
     const loadNews = async () => {
       try {
-        console.log('Loading news articles...')
-        const response = await getNews() as any
-        setArticles(response.articles)
-        setFilteredArticles(response.articles)
-        console.log('News articles loaded successfully:', response.articles.length)
+        console.log("Loading news articles...");
+        const response = (await getNews()) as any;
+        setArticles(response.articles);
+        setFilteredArticles(response.articles);
+        console.log(
+          "News articles loaded successfully:",
+          response.articles.length
+        );
       } catch (error: any) {
-        console.error('Error loading news:', error)
+        console.error("Error loading news:", error);
         toast({
           title: "Error",
           description: error.message || "Failed to load news articles",
           variant: "destructive",
-        })
+        });
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    loadNews()
-  }, [toast])
+    loadNews();
+  }, [toast]);
 
   useEffect(() => {
-    let filtered = articles
+    let filtered = articles;
 
     if (searchTerm) {
-      filtered = filtered.filter(article =>
-        article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        article.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      filtered = filtered.filter(
+        (article) =>
+          article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          article.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
 
     if (categoryFilter && categoryFilter !== "all") {
-      filtered = filtered.filter(article => article.category === categoryFilter)
+      filtered = filtered.filter(
+        (article) => article.category === categoryFilter
+      );
     }
 
-    setFilteredArticles(filtered)
-  }, [articles, searchTerm, categoryFilter])
+    setFilteredArticles(filtered);
+  }, [articles, searchTerm, categoryFilter]);
 
   const clearFilters = () => {
-    setSearchTerm("")
-    setCategoryFilter("all")
-  }
+    setSearchTerm("");
+    setCategoryFilter("all");
+  };
 
   if (loading) {
     return (
@@ -80,7 +105,7 @@ export function News() {
           ))}
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -91,7 +116,8 @@ export function News() {
           News & Media
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Stay updated with the latest happenings, success stories, and announcements from the Vybe Trybe community.
+          Stay updated with the latest happenings, success stories, and
+          announcements from the Vybe Tribe community.
         </p>
       </div>
 
@@ -167,9 +193,13 @@ export function News() {
                   className="w-10 h-10 rounded-full object-cover"
                 />
                 <div>
-                  <div className="font-semibold text-gray-900">{filteredArticles[0].author.name}</div>
+                  <div className="font-semibold text-gray-900">
+                    {filteredArticles[0].author.name}
+                  </div>
                   <div className="text-sm text-gray-600">
-                    {new Date(filteredArticles[0].publishedAt).toLocaleDateString()}
+                    {new Date(
+                      filteredArticles[0].publishedAt
+                    ).toLocaleDateString()}
                   </div>
                 </div>
               </div>
@@ -196,7 +226,9 @@ export function News() {
           <Card className="text-center py-12 bg-white/80 backdrop-blur-sm">
             <CardContent>
               <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No articles found</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                No articles found
+              </h3>
               <p className="text-gray-600 mb-4">
                 Try adjusting your filters or check back later for new articles.
               </p>
@@ -208,7 +240,10 @@ export function News() {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredArticles.slice(1).map((article) => (
-              <Card key={article._id} className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
+              <Card
+                key={article._id}
+                className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow"
+              >
                 <div className="aspect-video relative overflow-hidden rounded-t-lg">
                   <img
                     src={article.image}
@@ -220,8 +255,12 @@ export function News() {
                   </Badge>
                 </div>
                 <CardHeader>
-                  <CardTitle className="text-lg line-clamp-2">{article.title}</CardTitle>
-                  <CardDescription className="line-clamp-3">{article.excerpt}</CardDescription>
+                  <CardTitle className="text-lg line-clamp-2">
+                    {article.title}
+                  </CardTitle>
+                  <CardDescription className="line-clamp-3">
+                    {article.excerpt}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center space-x-3 mb-4">
@@ -231,7 +270,9 @@ export function News() {
                       className="w-8 h-8 rounded-full object-cover"
                     />
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{article.author.name}</div>
+                      <div className="text-sm font-medium text-gray-900">
+                        {article.author.name}
+                      </div>
                       <div className="text-xs text-gray-600">
                         {new Date(article.publishedAt).toLocaleDateString()}
                       </div>
@@ -257,16 +298,20 @@ export function News() {
             Have a Story to Share?
           </h2>
           <p className="text-lg mb-6 opacity-90 max-w-2xl mx-auto">
-            We're always looking for inspiring stories from our community members.
-            Share your experience and inspire others.
+            We're always looking for inspiring stories from our community
+            members. Share your experience and inspire others.
           </p>
           <Link to="/contact">
-            <Button size="lg" variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+            <Button
+              size="lg"
+              variant="secondary"
+              className="bg-white text-gray-900 hover:bg-gray-100"
+            >
               Submit Your Story
             </Button>
           </Link>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

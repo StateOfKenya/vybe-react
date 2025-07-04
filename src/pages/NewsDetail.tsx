@@ -1,64 +1,84 @@
-import { useEffect, useState } from "react"
-import { useParams, Link } from "react-router-dom"
-import { ArrowLeft, Calendar, User, Share2, Facebook, Twitter, Linkedin } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { getNewsById, NewsArticle } from "@/api/news"
-import { useToast } from "@/hooks/useToast"
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import {
+  ArrowLeft,
+  Calendar,
+  User,
+  Share2,
+  Facebook,
+  Twitter,
+  Linkedin,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { getNewsById, NewsArticle } from "@/api/news";
+import { useToast } from "@/hooks/useToast";
 
 export function NewsDetail() {
-  const { id } = useParams<{ id: string }>()
-  const [article, setArticle] = useState<NewsArticle | null>(null)
-  const [loading, setLoading] = useState(true)
-  const { toast } = useToast()
+  const { id } = useParams<{ id: string }>();
+  const [article, setArticle] = useState<NewsArticle | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     const loadArticle = async () => {
-      if (!id) return
+      if (!id) return;
 
       try {
-        console.log('Loading article details for ID:', id)
-        const response = await getNewsById(id) as any
-        setArticle(response.article)
-        console.log('Article details loaded successfully')
+        console.log("Loading article details for ID:", id);
+        const response = (await getNewsById(id)) as any;
+        setArticle(response.article);
+        console.log("Article details loaded successfully");
       } catch (error: any) {
-        console.error('Error loading article:', error)
+        console.error("Error loading article:", error);
         toast({
           title: "Error",
           description: error.message || "Failed to load article",
           variant: "destructive",
-        })
+        });
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    loadArticle()
-  }, [id, toast])
+    loadArticle();
+  }, [id, toast]);
 
   const handleShare = (platform: string) => {
-    const url = window.location.href
-    const title = article?.title || "Vybe Trybe News"
-    
-    let shareUrl = ""
+    const url = window.location.href;
+    const title = article?.title || "Vybe Tribe News";
+
+    let shareUrl = "";
     switch (platform) {
       case "facebook":
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
-        break
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+          url
+        )}`;
+        break;
       case "twitter":
-        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`
-        break
+        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+          url
+        )}&text=${encodeURIComponent(title)}`;
+        break;
       case "linkedin":
-        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
-        break
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+          url
+        )}`;
+        break;
     }
-    
+
     if (shareUrl) {
-      window.open(shareUrl, '_blank', 'width=600,height=400')
+      window.open(shareUrl, "_blank", "width=600,height=400");
     }
-  }
+  };
 
   if (loading) {
     return (
@@ -71,14 +91,18 @@ export function NewsDetail() {
           <div className="h-4 bg-gray-200 rounded w-2/3" />
         </div>
       </div>
-    )
+    );
   }
 
   if (!article) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Article Not Found</h1>
-        <p className="text-gray-600 mb-6">The article you're looking for doesn't exist or has been removed.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          Article Not Found
+        </h1>
+        <p className="text-gray-600 mb-6">
+          The article you're looking for doesn't exist or has been removed.
+        </p>
         <Link to="/news">
           <Button>
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -86,7 +110,7 @@ export function NewsDetail() {
           </Button>
         </Link>
       </div>
-    )
+    );
   }
 
   return (
@@ -120,18 +144,22 @@ export function NewsDetail() {
               className="w-12 h-12 rounded-full object-cover"
             />
             <div>
-              <div className="font-semibold text-gray-900">{article.author.name}</div>
+              <div className="font-semibold text-gray-900">
+                {article.author.name}
+              </div>
               <div className="text-sm text-gray-600">{article.author.bio}</div>
             </div>
           </div>
           <div className="flex items-center space-x-4 text-sm text-gray-600">
             <div className="flex items-center space-x-1">
               <Calendar className="w-4 h-4" />
-              <span>{new Date(article.publishedAt).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}</span>
+              <span>
+                {new Date(article.publishedAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
             </div>
           </div>
         </div>
@@ -151,7 +179,7 @@ export function NewsDetail() {
       {/* Article Content */}
       <Card className="bg-white/80 backdrop-blur-sm">
         <CardContent className="pt-8">
-          <div 
+          <div
             className="prose prose-lg max-w-none text-gray-700 leading-relaxed"
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
@@ -188,7 +216,7 @@ export function NewsDetail() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => handleShare('facebook')}
+              onClick={() => handleShare("facebook")}
               className="flex items-center space-x-2"
             >
               <Facebook className="w-4 h-4" />
@@ -197,7 +225,7 @@ export function NewsDetail() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => handleShare('twitter')}
+              onClick={() => handleShare("twitter")}
               className="flex items-center space-x-2"
             >
               <Twitter className="w-4 h-4" />
@@ -206,7 +234,7 @@ export function NewsDetail() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => handleShare('linkedin')}
+              onClick={() => handleShare("linkedin")}
               className="flex items-center space-x-2"
             >
               <Linkedin className="w-4 h-4" />
@@ -241,19 +269,27 @@ export function NewsDetail() {
       <Card className="bg-gradient-to-r from-red-600 via-green-600 to-yellow-600 text-white border-0">
         <CardContent className="text-center py-8">
           <h2 className="text-xl md:text-2xl font-bold mb-4">
-            Stay Updated with Vybe Trybe
+            Stay Updated with Vybe Tribe
           </h2>
           <p className="mb-6 opacity-90">
             Don't miss out on the latest news and updates from our community.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/join">
-              <Button size="lg" variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
-                Join the Trybe
+              <Button
+                size="lg"
+                variant="secondary"
+                className="bg-white text-gray-900 hover:bg-gray-100"
+              >
+                Join the Tribe
               </Button>
             </Link>
             <Link to="/news">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white/10"
+              >
                 Read More News
               </Button>
             </Link>
@@ -261,5 +297,5 @@ export function NewsDetail() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

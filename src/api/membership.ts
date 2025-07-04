@@ -1,4 +1,4 @@
-import api from './api';
+import api from "./api";
 
 export interface MembershipData {
   personalInfo: {
@@ -31,8 +31,9 @@ export const submitMembership = (data: MembershipData) => {
     setTimeout(() => {
       resolve({
         success: true,
-        message: 'Welcome to Vybe Trybe! Your membership application has been approved.',
-        memberId: 'VT' + Math.random().toString(36).substr(2, 9).toUpperCase()
+        message:
+          "Welcome to Vybe Tribe! Your membership application has been approved.",
+        memberId: "VT" + Math.random().toString(36).substr(2, 9).toUpperCase(),
       });
     }, 1500);
   });
@@ -51,8 +52,8 @@ export const getMembershipStats = () => {
           totalMembers: 2847,
           activeProjects: 15,
           countiesReached: 47,
-          eventsOrganized: 89
-        }
+          eventsOrganized: 89,
+        },
       });
     }, 500);
   });
@@ -69,27 +70,33 @@ export const getTestimonials = () => {
       resolve({
         testimonials: [
           {
-            name: 'Sarah Wanjiku',
+            name: "Msee Wanai",
             age: 22,
-            location: 'Mombasa',
-            quote: 'Vybe Trybe gave me a platform to organize climate action in Mombasa. Through this community, I\'ve been able to mobilize over 300 youth for environmental conservation.',
-            image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150'
+            location: "Dagoretti South",
+            quote:
+              "Vybe Tribe gave me a platform to organize a market cleanup in Dagoretti Market. Through this community, I've been able to mobilize over 300 youth for community.",
+            image:
+              "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150",
           },
           {
-            name: 'David Kipchoge',
+            name: "David Kipchoge",
             age: 25,
-            location: 'Eldoret',
-            quote: 'The leadership skills I gained through Vybe Trybe helped me start a successful youth mentorship program in my community. We\'ve impacted over 200 young people.',
-            image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150'
+            location: "Langata",
+            quote:
+              "The leadership skills I gained through Vybe Tribe helped me start a successful youth mentorship program in my community. We've impacted over 200 young people.",
+            image:
+              "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
           },
           {
-            name: 'Grace Achieng',
+            name: "Grace Achieng",
             age: 24,
-            location: 'Kisumu',
-            quote: 'Being part of Vybe Trybe connected me with like-minded youth across Kenya. Together, we organized the largest voter registration drive in Nyanza region.',
-            image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150'
-          }
-        ]
+            location: "Kisumu",
+            quote:
+              "Being part of Vybe Tribe connected me with like-minded youth across Kenya. Together, we organized the largest voter registration drive in Nyanza region.",
+            image:
+              "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150",
+          },
+        ],
       });
     }, 500);
   });

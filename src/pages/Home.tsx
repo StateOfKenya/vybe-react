@@ -69,7 +69,7 @@ export function Home() {
 
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-red-600 via-green-600 to-yellow-600 bg-clip-text text-transparent">
-            One Vybe. One Trybe. One Nation.
+            One Vybe. One Tribe. One Nation.
           </h1>
           <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-2xl mx-auto">
             Empowering Kenyan youth through unity, collaboration, and positive
@@ -83,7 +83,7 @@ export function Home() {
                 size="lg"
                 className="bg-gradient-to-r from-red-500 to-green-500 hover:from-red-600 hover:to-green-600 text-white px-8 py-3 text-lg"
               >
-                Join the Trybe
+                Join the Tribe
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
@@ -118,7 +118,7 @@ export function Home() {
                 <div className="text-3xl font-bold text-red-600 mb-2">
                   {stats.totalMembers.toLocaleString()}
                 </div>
-                <div className="text-sm text-gray-600">Trybe Members</div>
+                <div className="text-sm text-gray-600">Tribe Members</div>
               </CardContent>
             </Card>
             <Card className="text-center bg-white/70 backdrop-blur-sm border-green-200">
@@ -194,7 +194,7 @@ export function Home() {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Join us in making a difference. From environmental cleanups to
             leadership workshops, there's always something happening in the
-            Trybe.
+            Tribe.
           </p>
         </div>
 
@@ -264,7 +264,7 @@ export function Home() {
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Stay updated with the latest happenings, success stories, and
-            announcements from the Vybe Trybe community.
+            announcements from the Vybe Tribe community.
           </p>
         </div>
 

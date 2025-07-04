@@ -1,39 +1,119 @@
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, ArrowRight, CheckCircle, Users, Target, Heart } from "lucide-react"
-import { submitMembership } from "@/api/membership"
-import { useToast } from "@/hooks/useToast"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle,
+  Users,
+  Target,
+  Heart,
+} from "lucide-react";
+import { submitMembership } from "@/api/membership";
+import { useToast } from "@/hooks/useToast";
 
 const formSchema = z.object({
   fullName: z.string().min(2, "Full name must be at least 2 characters"),
-  age: z.number().min(16, "Must be at least 16 years old").max(35, "Must be 35 years or younger"),
+  age: z
+    .number()
+    .min(16, "Must be at least 16 years old")
+    .max(35, "Must be 35 years or younger"),
   county: z.string().min(1, "Please select your county"),
   phone: z.string().min(10, "Please enter a valid phone number"),
   email: z.string().email("Please enter a valid email address"),
   interests: z.array(z.string()).min(1, "Please select at least one interest"),
   skills: z.array(z.string()).min(1, "Please select at least one skill"),
-  motivation: z.string().min(50, "Please provide at least 50 characters explaining your motivation"),
-  participation: z.array(z.string()).min(1, "Please select at least one participation preference"),
-})
+  motivation: z
+    .string()
+    .min(
+      50,
+      "Please provide at least 50 characters explaining your motivation"
+    ),
+  participation: z
+    .array(z.string())
+    .min(1, "Please select at least one participation preference"),
+});
 
 const counties = [
-  "Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret", "Thika", "Malindi", "Kitale", "Garissa", "Kakamega",
-  "Meru", "Nyeri", "Machakos", "Kericho", "Embu", "Migori", "Homa Bay", "Naivasha", "Voi", "Bungoma",
-  "Kilifi", "Lamu", "Isiolo", "Marsabit", "Wajir", "Mandera", "Turkana", "West Pokot", "Samburu", "Laikipia",
-  "Nyandarua", "Kirinyaga", "Murang'a", "Kiambu", "Kajiado", "Makueni", "Kitui", "Tana River", "Taita Taveta",
-  "Kwale", "Baringo", "Elgeyo Marakwet", "Nandi", "Trans Nzoia", "Uasin Gishu", "Bomet", "Kericho", "Nyamira"
-]
+  "Nairobi",
+  "Mombasa",
+  "Kisumu",
+  "Nakuru",
+  "Eldoret",
+  "Thika",
+  "Malindi",
+  "Kitale",
+  "Garissa",
+  "Kakamega",
+  "Meru",
+  "Nyeri",
+  "Machakos",
+  "Kericho",
+  "Embu",
+  "Migori",
+  "Homa Bay",
+  "Naivasha",
+  "Voi",
+  "Bungoma",
+  "Kilifi",
+  "Lamu",
+  "Isiolo",
+  "Marsabit",
+  "Wajir",
+  "Mandera",
+  "Turkana",
+  "West Pokot",
+  "Samburu",
+  "Laikipia",
+  "Nyandarua",
+  "Kirinyaga",
+  "Murang'a",
+  "Kiambu",
+  "Kajiado",
+  "Makueni",
+  "Kitui",
+  "Tana River",
+  "Taita Taveta",
+  "Kwale",
+  "Baringo",
+  "Elgeyo Marakwet",
+  "Nandi",
+  "Trans Nzoia",
+  "Uasin Gishu",
+  "Bomet",
+  "Kericho",
+  "Nyamira",
+];
 
 const interestOptions = [
   "Environment & Climate Action",
@@ -45,8 +125,8 @@ const interestOptions = [
   "Technology & Innovation",
   "Entrepreneurship & Business",
   "Community Development",
-  "Human Rights & Social Justice"
-]
+  "Human Rights & Social Justice",
+];
 
 const skillOptions = [
   "Leadership & Management",
@@ -60,8 +140,8 @@ const skillOptions = [
   "Project Management",
   "Fundraising",
   "Teaching & Training",
-  "Research & Analysis"
-]
+  "Research & Analysis",
+];
 
 const participationOptions = [
   "Event Organizing",
@@ -71,15 +151,15 @@ const participationOptions = [
   "Content Creation",
   "Mentoring Other Youth",
   "Fundraising Activities",
-  "Skills Training & Workshops"
-]
+  "Skills Training & Workshops",
+];
 
-export function JoinTrybe() {
-  const [currentStep, setCurrentStep] = useState(1)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-  const [memberId, setMemberId] = useState("")
-  const { toast } = useToast()
+export function JoinTribe() {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [memberId, setMemberId] = useState("");
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -94,45 +174,45 @@ export function JoinTrybe() {
       motivation: "",
       participation: [],
     },
-  })
+  });
 
-  const totalSteps = 4
-  const progress = (currentStep / totalSteps) * 100
+  const totalSteps = 4;
+  const progress = (currentStep / totalSteps) * 100;
 
   const nextStep = async () => {
-    let fieldsToValidate: (keyof z.infer<typeof formSchema>)[] = []
+    let fieldsToValidate: (keyof z.infer<typeof formSchema>)[] = [];
 
     switch (currentStep) {
       case 1:
-        fieldsToValidate = ["fullName", "age", "county", "phone", "email"]
-        break
+        fieldsToValidate = ["fullName", "age", "county", "phone", "email"];
+        break;
       case 2:
-        fieldsToValidate = ["interests", "skills"]
-        break
+        fieldsToValidate = ["interests", "skills"];
+        break;
       case 3:
-        fieldsToValidate = ["motivation"]
-        break
+        fieldsToValidate = ["motivation"];
+        break;
       case 4:
-        fieldsToValidate = ["participation"]
-        break
+        fieldsToValidate = ["participation"];
+        break;
     }
 
-    const isStepValid = await form.trigger(fieldsToValidate)
+    const isStepValid = await form.trigger(fieldsToValidate);
     if (isStepValid && currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1)
+      setCurrentStep(currentStep + 1);
     }
-  }
+  };
 
   const prevStep = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1)
+      setCurrentStep(currentStep - 1);
     }
-  }
+  };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setIsSubmitting(true)
-      console.log('Submitting membership application:', values)
+      setIsSubmitting(true);
+      console.log("Submitting membership application:", values);
 
       const membershipData = {
         personalInfo: {
@@ -146,30 +226,30 @@ export function JoinTrybe() {
         skills: values.skills,
         motivation: values.motivation,
         participation: values.participation,
-      }
+      };
 
-      const response = await submitMembership(membershipData) as any
+      const response = (await submitMembership(membershipData)) as any;
 
       if (response.success) {
-        setMemberId(response.memberId)
-        setIsSuccess(true)
-        console.log('Membership application submitted successfully')
+        setMemberId(response.memberId);
+        setIsSuccess(true);
+        console.log("Membership application submitted successfully");
         toast({
-          title: "Welcome to Vybe Trybe!",
+          title: "Welcome to Vybe Tribe!",
           description: response.message,
-        })
+        });
       }
     } catch (error: any) {
-      console.error('Error submitting membership:', error)
+      console.error("Error submitting membership:", error);
       toast({
         title: "Error",
         description: error.message || "Failed to submit membership application",
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   if (isSuccess) {
     return (
@@ -179,13 +259,19 @@ export function JoinTrybe() {
             <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
               <CheckCircle className="w-8 h-8 text-green-600" />
             </div>
-            <CardTitle className="text-2xl text-green-600">Welcome to Vybe Trybe!</CardTitle>
-            <CardDescription>Your membership application has been approved</CardDescription>
+            <CardTitle className="text-2xl text-green-600">
+              Welcome to Vybe Tribe!
+            </CardTitle>
+            <CardDescription>
+              Your membership application has been approved
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="bg-green-50 p-4 rounded-lg">
               <p className="text-sm text-green-700 mb-2">Your Member ID:</p>
-              <p className="text-lg font-mono font-bold text-green-800">{memberId}</p>
+              <p className="text-lg font-mono font-bold text-green-800">
+                {memberId}
+              </p>
             </div>
 
             <div className="space-y-4 text-left">
@@ -193,7 +279,9 @@ export function JoinTrybe() {
               <ul className="space-y-2 text-sm text-gray-600">
                 <li className="flex items-center space-x-2">
                   <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span>Check your email for welcome information and next steps</span>
+                  <span>
+                    Check your email for welcome information and next steps
+                  </span>
                 </li>
                 <li className="flex items-center space-x-2">
                   <CheckCircle className="w-4 h-4 text-green-500" />
@@ -223,7 +311,7 @@ export function JoinTrybe() {
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 
   return (
@@ -231,7 +319,7 @@ export function JoinTrybe() {
       {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-red-600 via-green-600 to-yellow-600 bg-clip-text text-transparent mb-4">
-          Join the Trybe
+          Join the Tribe
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           Become part of Kenya's largest youth movement for positive change.
@@ -242,8 +330,12 @@ export function JoinTrybe() {
       {/* Progress Bar */}
       <div className="mb-8">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-600">Step {currentStep} of {totalSteps}</span>
-          <span className="text-sm font-medium text-gray-600">{Math.round(progress)}% Complete</span>
+          <span className="text-sm font-medium text-gray-600">
+            Step {currentStep} of {totalSteps}
+          </span>
+          <span className="text-sm font-medium text-gray-600">
+            {Math.round(progress)}% Complete
+          </span>
         </div>
         <Progress value={progress} className="h-2" />
       </div>
@@ -253,10 +345,18 @@ export function JoinTrybe() {
           <Card className="bg-white/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                {currentStep === 1 && <Users className="w-5 h-5 text-red-500" />}
-                {currentStep === 2 && <Target className="w-5 h-5 text-green-500" />}
-                {currentStep === 3 && <Heart className="w-5 h-5 text-yellow-500" />}
-                {currentStep === 4 && <CheckCircle className="w-5 h-5 text-blue-500" />}
+                {currentStep === 1 && (
+                  <Users className="w-5 h-5 text-red-500" />
+                )}
+                {currentStep === 2 && (
+                  <Target className="w-5 h-5 text-green-500" />
+                )}
+                {currentStep === 3 && (
+                  <Heart className="w-5 h-5 text-yellow-500" />
+                )}
+                {currentStep === 4 && (
+                  <CheckCircle className="w-5 h-5 text-blue-500" />
+                )}
                 <span>
                   {currentStep === 1 && "Personal Information"}
                   {currentStep === 2 && "Interests & Skills"}
@@ -266,8 +366,9 @@ export function JoinTrybe() {
               </CardTitle>
               <CardDescription>
                 {currentStep === 1 && "Tell us about yourself"}
-                {currentStep === 2 && "What are you passionate about and what can you contribute?"}
-                {currentStep === 3 && "Why do you want to join Vybe Trybe?"}
+                {currentStep === 2 &&
+                  "What are you passionate about and what can you contribute?"}
+                {currentStep === 3 && "Why do you want to join Vybe Tribe?"}
                 {currentStep === 4 && "How would you like to get involved?"}
               </CardDescription>
             </CardHeader>
@@ -283,7 +384,10 @@ export function JoinTrybe() {
                       <FormItem>
                         <FormLabel>Full Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter your full name" {...field} />
+                          <Input
+                            placeholder="Enter your full name"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -301,7 +405,9 @@ export function JoinTrybe() {
                             type="number"
                             placeholder="Enter your age"
                             {...field}
-                            onChange={(e) => field.onChange(parseInt(e.target.value))}
+                            onChange={(e) =>
+                              field.onChange(parseInt(e.target.value))
+                            }
                           />
                         </FormControl>
                         <FormMessage />
@@ -315,7 +421,10 @@ export function JoinTrybe() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>County</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Select your county" />
@@ -355,7 +464,10 @@ export function JoinTrybe() {
                       <FormItem className="md:col-span-2">
                         <FormLabel>Email Address</FormLabel>
                         <FormControl>
-                          <Input placeholder="your.email@example.com" {...field} />
+                          <Input
+                            placeholder="your.email@example.com"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -374,7 +486,8 @@ export function JoinTrybe() {
                       <FormItem>
                         <FormLabel>Areas of Interest</FormLabel>
                         <FormDescription>
-                          Select all areas you're passionate about (choose at least one)
+                          Select all areas you're passionate about (choose at
+                          least one)
                         </FormDescription>
                         <div className="grid md:grid-cols-2 gap-3">
                           {interestOptions.map((interest) => (
@@ -390,15 +503,20 @@ export function JoinTrybe() {
                                   >
                                     <FormControl>
                                       <Checkbox
-                                        checked={field.value?.includes(interest)}
+                                        checked={field.value?.includes(
+                                          interest
+                                        )}
                                         onCheckedChange={(checked) => {
                                           return checked
-                                            ? field.onChange([...field.value, interest])
+                                            ? field.onChange([
+                                                ...field.value,
+                                                interest,
+                                              ])
                                             : field.onChange(
                                                 field.value?.filter(
                                                   (value) => value !== interest
                                                 )
-                                              )
+                                              );
                                         }}
                                       />
                                     </FormControl>
@@ -406,7 +524,7 @@ export function JoinTrybe() {
                                       {interest}
                                     </FormLabel>
                                   </FormItem>
-                                )
+                                );
                               }}
                             />
                           ))}
@@ -423,7 +541,8 @@ export function JoinTrybe() {
                       <FormItem>
                         <FormLabel>Skills & Abilities</FormLabel>
                         <FormDescription>
-                          Select your skills that you can contribute to the community
+                          Select your skills that you can contribute to the
+                          community
                         </FormDescription>
                         <div className="grid md:grid-cols-2 gap-3">
                           {skillOptions.map((skill) => (
@@ -442,12 +561,15 @@ export function JoinTrybe() {
                                         checked={field.value?.includes(skill)}
                                         onCheckedChange={(checked) => {
                                           return checked
-                                            ? field.onChange([...field.value, skill])
+                                            ? field.onChange([
+                                                ...field.value,
+                                                skill,
+                                              ])
                                             : field.onChange(
                                                 field.value?.filter(
                                                   (value) => value !== skill
                                                 )
-                                              )
+                                              );
                                         }}
                                       />
                                     </FormControl>
@@ -455,7 +577,7 @@ export function JoinTrybe() {
                                       {skill}
                                     </FormLabel>
                                   </FormItem>
-                                )
+                                );
                               }}
                             />
                           ))}
@@ -474,13 +596,14 @@ export function JoinTrybe() {
                   name="motivation"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Why do you want to join Vybe Trybe?</FormLabel>
+                      <FormLabel>Why do you want to join Vybe Tribe?</FormLabel>
                       <FormDescription>
-                        Tell us about your motivation and what you hope to achieve (minimum 50 characters)
+                        Tell us about your motivation and what you hope to
+                        achieve (minimum 50 characters)
                       </FormDescription>
                       <FormControl>
                         <Textarea
-                          placeholder="Share your story, your passion for change, and what you hope to contribute to the Vybe Trybe community..."
+                          placeholder="Share your story, your passion for change, and what you hope to contribute to the Vybe Tribe community..."
                           className="min-h-[120px]"
                           {...field}
                         />
@@ -503,7 +626,8 @@ export function JoinTrybe() {
                     <FormItem>
                       <FormLabel>How would you like to participate?</FormLabel>
                       <FormDescription>
-                        Select all the ways you'd like to get involved with Vybe Trybe
+                        Select all the ways you'd like to get involved with Vybe
+                        Tribe
                       </FormDescription>
                       <div className="grid md:grid-cols-2 gap-3">
                         {participationOptions.map((option) => (
@@ -522,12 +646,15 @@ export function JoinTrybe() {
                                       checked={field.value?.includes(option)}
                                       onCheckedChange={(checked) => {
                                         return checked
-                                          ? field.onChange([...field.value, option])
+                                          ? field.onChange([
+                                              ...field.value,
+                                              option,
+                                            ])
                                           : field.onChange(
                                               field.value?.filter(
                                                 (value) => value !== option
                                               )
-                                            )
+                                            );
                                       }}
                                     />
                                   </FormControl>
@@ -535,7 +662,7 @@ export function JoinTrybe() {
                                     {option}
                                   </FormLabel>
                                 </FormItem>
-                              )
+                              );
                             }}
                           />
                         ))}
@@ -584,7 +711,7 @@ export function JoinTrybe() {
                 ) : (
                   <>
                     <CheckCircle className="w-4 h-4" />
-                    <span>Join Vybe Trybe</span>
+                    <span>Join Vybe Tribe</span>
                   </>
                 )}
               </Button>
@@ -593,5 +720,5 @@ export function JoinTrybe() {
         </form>
       </Form>
     </div>
-  )
+  );
 }

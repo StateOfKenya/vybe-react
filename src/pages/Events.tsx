@@ -1,75 +1,105 @@
-import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
-import { Calendar, MapPin, Users, Filter, Search } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { getEvents, Event } from "@/api/events"
-import { useToast } from "@/hooks/useToast"
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Calendar, MapPin, Users, Filter, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { getEvents, Event } from "@/api/events";
+import { useToast } from "@/hooks/useToast";
 
 export function Events() {
-  const [events, setEvents] = useState<Event[]>([])
-  const [filteredEvents, setFilteredEvents] = useState<Event[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [categoryFilter, setCategoryFilter] = useState("all")
-  const [countyFilter, setCountyFilter] = useState("all")
-  const { toast } = useToast()
+  const [events, setEvents] = useState<Event[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [countyFilter, setCountyFilter] = useState("all");
+  const { toast } = useToast();
 
-  const categories = ["Environment", "Workshop", "Competition", "Rally", "Arts", "Politics", "Health"]
-  const counties = ["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret", "Meru", "Nyeri", "Machakos"]
+  const categories = [
+    "Environment",
+    "Workshop",
+    "Competition",
+    "Rally",
+    "Arts",
+    "Politics",
+    "Health",
+  ];
+  const counties = [
+    "Nairobi",
+    "Mombasa",
+    "Kisumu",
+    "Nakuru",
+    "Eldoret",
+    "Meru",
+    "Nyeri",
+    "Machakos",
+  ];
 
   useEffect(() => {
     const loadEvents = async () => {
       try {
-        console.log('Loading events...')
-        const response = await getEvents() as any
-        setEvents(response.events)
-        setFilteredEvents(response.events)
-        console.log('Events loaded successfully:', response.events.length)
+        console.log("Loading events...");
+        const response = (await getEvents()) as any;
+        setEvents(response.events);
+        setFilteredEvents(response.events);
+        console.log("Events loaded successfully:", response.events.length);
       } catch (error: any) {
-        console.error('Error loading events:', error)
+        console.error("Error loading events:", error);
         toast({
           title: "Error",
           description: error.message || "Failed to load events",
           variant: "destructive",
-        })
+        });
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    loadEvents()
-  }, [toast])
+    loadEvents();
+  }, [toast]);
 
   useEffect(() => {
-    let filtered = events
+    let filtered = events;
 
     if (searchTerm) {
-      filtered = filtered.filter(event =>
-        event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        event.description.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      filtered = filtered.filter(
+        (event) =>
+          event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          event.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
 
     if (categoryFilter && categoryFilter !== "all") {
-      filtered = filtered.filter(event => event.category === categoryFilter)
+      filtered = filtered.filter((event) => event.category === categoryFilter);
     }
 
     if (countyFilter && countyFilter !== "all") {
-      filtered = filtered.filter(event => event.county === countyFilter)
+      filtered = filtered.filter((event) => event.county === countyFilter);
     }
 
-    setFilteredEvents(filtered)
-  }, [events, searchTerm, categoryFilter, countyFilter])
+    setFilteredEvents(filtered);
+  }, [events, searchTerm, categoryFilter, countyFilter]);
 
   const clearFilters = () => {
-    setSearchTerm("")
-    setCategoryFilter("all")
-    setCountyFilter("all")
-  }
+    setSearchTerm("");
+    setCategoryFilter("all");
+    setCountyFilter("all");
+  };
 
   if (loading) {
     return (
@@ -87,7 +117,7 @@ export function Events() {
           ))}
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -98,8 +128,8 @@ export function Events() {
           Upcoming Events
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Join us in making a difference. From environmental cleanups to leadership workshops,
-          there's always something happening in the Trybe.
+          Join us in making a difference. From environmental cleanups to
+          leadership workshops, there's always something happening in the Tribe.
         </p>
       </div>
 
@@ -185,12 +215,15 @@ export function Events() {
               <div className="space-y-3 mb-6">
                 <div className="flex items-center text-gray-600">
                   <Calendar className="w-4 h-4 mr-2" />
-                  {new Date(filteredEvents[0].date).toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
+                  {new Date(filteredEvents[0].date).toLocaleDateString(
+                    "en-US",
+                    {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }
+                  )}
                 </div>
                 <div className="flex items-center text-gray-600">
                   <MapPin className="w-4 h-4 mr-2" />
@@ -221,7 +254,9 @@ export function Events() {
           <Card className="text-center py-12 bg-white/80 backdrop-blur-sm">
             <CardContent>
               <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No events found</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                No events found
+              </h3>
               <p className="text-gray-600 mb-4">
                 Try adjusting your filters or check back later for new events.
               </p>
@@ -233,7 +268,10 @@ export function Events() {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredEvents.slice(1).map((event) => (
-              <Card key={event._id} className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
+              <Card
+                key={event._id}
+                className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow"
+              >
                 <div className="aspect-video relative overflow-hidden rounded-t-lg">
                   <img
                     src={event.image}
@@ -243,21 +281,25 @@ export function Events() {
                   <Badge className="absolute top-4 left-4 bg-red-500">
                     {event.category}
                   </Badge>
-                  <Badge 
+                  <Badge
                     className={`absolute top-4 right-4 ${
-                      event.registrationStatus === 'open' 
-                        ? 'bg-green-500' 
-                        : event.registrationStatus === 'full'
-                        ? 'bg-yellow-500'
-                        : 'bg-gray-500'
+                      event.registrationStatus === "open"
+                        ? "bg-green-500"
+                        : event.registrationStatus === "full"
+                        ? "bg-yellow-500"
+                        : "bg-gray-500"
                     }`}
                   >
                     {event.registrationStatus}
                   </Badge>
                 </div>
                 <CardHeader>
-                  <CardTitle className="text-lg line-clamp-2">{event.title}</CardTitle>
-                  <CardDescription className="line-clamp-3">{event.description}</CardDescription>
+                  <CardTitle className="text-lg line-clamp-2">
+                    {event.title}
+                  </CardTitle>
+                  <CardDescription className="line-clamp-3">
+                    {event.description}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2 mb-4">
@@ -274,13 +316,20 @@ export function Events() {
                       {event.participantCount} participants
                     </div>
                   </div>
-                  <Button 
-                    className="w-full" 
-                    variant={event.registrationStatus === 'open' ? 'default' : 'secondary'}
-                    disabled={event.registrationStatus !== 'open'}
+                  <Button
+                    className="w-full"
+                    variant={
+                      event.registrationStatus === "open"
+                        ? "default"
+                        : "secondary"
+                    }
+                    disabled={event.registrationStatus !== "open"}
                   >
-                    {event.registrationStatus === 'open' ? 'Register' : 
-                     event.registrationStatus === 'full' ? 'Event Full' : 'Registration Closed'}
+                    {event.registrationStatus === "open"
+                      ? "Register"
+                      : event.registrationStatus === "full"
+                      ? "Event Full"
+                      : "Registration Closed"}
                   </Button>
                 </CardContent>
               </Card>
@@ -296,16 +345,20 @@ export function Events() {
             Want to Organize Your Own Event?
           </h2>
           <p className="text-lg mb-6 opacity-90 max-w-2xl mx-auto">
-            Have an idea for a community event? We provide support, resources, and promotion
-            to help you make it happen.
+            Have an idea for a community event? We provide support, resources,
+            and promotion to help you make it happen.
           </p>
           <Link to="/get-involved">
-            <Button size="lg" variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+            <Button
+              size="lg"
+              variant="secondary"
+              className="bg-white text-gray-900 hover:bg-gray-100"
+            >
               Propose an Event
             </Button>
           </Link>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

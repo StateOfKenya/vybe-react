@@ -20,10 +20,10 @@ export function Footer() {
               <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-green-500 rounded-full flex items-center justify-center">
                 <span className="text-white font-bold text-sm">VT</span>
               </div>
-              <span className="text-xl font-bold">Vybe Trybe</span>
+              <span className="text-xl font-bold">Vybe Tribe</span>
             </div>
             <p className="text-gray-300 text-sm">
-              One Vybe. One Trybe. One Nation. Empowering youth through unity,
+              One Vybe. One Tribe. One Nation. Empowering youth through unity,
               collaboration, and positive change.
             </p>
             <div className="flex space-x-4">
@@ -73,7 +73,7 @@ export function Footer() {
                 to="/join"
                 className="block text-gray-300 hover:text-white transition-colors text-sm"
               >
-                Join the Trybe
+                Join the Tribe
               </Link>
               <Link
                 to="/checheza-mtaani"
@@ -118,8 +118,8 @@ export function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400 text-sm">
-            © 2025 Vybe Trybe. All rights reserved. Built with ❤️ by and for
-            Kenyan Youth.
+            © 2025 Vybe Tribe. All rights reserved. Built with ❤️ by and for new
+            Kenyan.
           </p>
         </div>
       </div>
