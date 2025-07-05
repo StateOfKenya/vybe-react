@@ -96,13 +96,13 @@ export function Home() {
                 Register for Checheza Mtaani
               </Button>
             </Link>
-            <Link to="/projects">
+            <Link to="/contact">
               <Button
                 size="lg"
-                variant="ghost"
-                className="text-green-600 hover:bg-green-50 px-8 py-3 text-lg"
+                variant="outline"
+                className="border-2 border-black-500 text-green-600 hover:bg-green-50 px-8 py-3 text-lg"
               >
-                Explore Projects
+                Contact US
               </Button>
             </Link>
           </div>
