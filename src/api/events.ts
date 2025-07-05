@@ -46,6 +46,20 @@ export const getEvents = (filters?: {
         events: [
           {
             _id: "1",
+            title: "Checheza Mtaani Tournament 2025",
+            description:
+              "The biggest street competition showcasing talent from every corner of Nairobi",
+            date: "2025-03-01",
+            location: "Various Constituencies, Nairobi",
+            category: "Competition",
+            participantCount: 1250,
+            registrationStatus: "open",
+            image:
+              "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
+            county: "Nairobi",
+          },
+          {
+            _id: "2",
             title: "Nairobi River Clean-Up Drive",
             description:
               "Join us for a massive environmental conservation effort along Nairobi River",
@@ -59,7 +73,7 @@ export const getEvents = (filters?: {
             county: "Nairobi",
           },
           {
-            _id: "2",
+            _id: "3",
             title: "Youth Leadership Workshop",
             description:
               "Develop your leadership skills and learn how to make a difference in your community",
@@ -70,20 +84,6 @@ export const getEvents = (filters?: {
             registrationStatus: "open",
             image:
               "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800",
-            county: "Nairobi",
-          },
-          {
-            _id: "3",
-            title: "Checheza Mtaani Tournament 2025",
-            description:
-              "The biggest street competition showcasing talent from every corner of Nairobi",
-            date: "2024-03-01",
-            location: "Various Constituencies, Nairobi",
-            category: "Competition",
-            participantCount: 1250,
-            registrationStatus: "open",
-            image:
-              "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
             county: "Nairobi",
           },
         ],

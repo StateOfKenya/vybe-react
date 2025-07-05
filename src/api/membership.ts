@@ -49,10 +49,10 @@ export const getMembershipStats = () => {
     setTimeout(() => {
       resolve({
         stats: {
-          totalMembers: 2847,
-          activeProjects: 15,
-          countiesReached: 47,
-          eventsOrganized: 89,
+          totalMembers: 13,
+          activeProjects: 1,
+          countiesReached: 2,
+          eventsOrganized: 3,
         },
       });
     }, 500);
