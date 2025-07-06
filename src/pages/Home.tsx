@@ -102,7 +102,7 @@ export function Home() {
                 variant="outline"
                 className="border-2 border-black-500 text-green-600 hover:bg-green-50 px-8 py-3 text-lg"
               >
-                Contact US
+                Contact Us
               </Button>
             </Link>
           </div>

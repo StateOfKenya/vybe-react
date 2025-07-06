@@ -18,13 +18,11 @@ export function Header() {
 
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
+    { name: "Checheza Mtaani", href: "/checheza-mtaani" },
     { name: "Join Tribe", href: "/join" },
     { name: "Events", href: "/events" },
-    { name: "Checheza Mtaani", href: "/checheza-mtaani" },
     { name: "Projects", href: "/projects" },
     { name: "News", href: "/news" },
-    { name: "Get Involved", href: "/get-involved" },
     { name: "Contact", href: "/contact" },
   ];
 
