@@ -1,12 +1,17 @@
-
-import { Construction, ArrowLeft } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { useNavigate, useLocation } from "react-router-dom"
+import { Construction, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export function BlankPage() {
-  const navigate = useNavigate()
-  const location = useLocation()
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center p-4">
@@ -16,17 +21,15 @@ export function BlankPage() {
             <Construction className="h-10 w-10 text-muted-foreground" />
           </div>
           <CardTitle className="text-2xl">Page Under Construction</CardTitle>
-          <CardDescription>
-            This page is not yet implemented.
-          </CardDescription>
+          <CardDescription>This page is not yet implemented.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Please tell Pythagora to implement the {location.pathname} page
+              Please tell Trybe to implement the {location.pathname} page
             </p>
-            <Button 
-              onClick={() => navigate("/")} 
+            <Button
+              onClick={() => navigate("/")}
               className="w-full"
               variant="default"
             >
@@ -37,5 +40,5 @@ export function BlankPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

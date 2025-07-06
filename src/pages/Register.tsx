@@ -1,9 +1,9 @@
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -11,47 +11,47 @@ import {
   CardHeader,
   CardTitle,
   CardFooter,
-} from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert" // pythagora_mocked_data - DO NOT REMOVE THIS COMMENT
-import { useToast } from "@/hooks/useToast"
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert"; // trybe_mocked_data - DO NOT REMOVE THIS COMMENT
+import { useToast } from "@/hooks/useToast";
 import {
-  UserPlus
-  , LightbulbIcon // pythagora_mocked_data - DO NOT REMOVE THIS COMMENT
-} from "lucide-react"
-import { useAuth } from "@/contexts/AuthContext"
+  UserPlus,
+  LightbulbIcon, // trybe_mocked_data - DO NOT REMOVE THIS COMMENT
+} from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 type RegisterForm = {
-  email: string
-  password: string
-}
+  email: string;
+  password: string;
+};
 
 export function Register() {
-  const [loading, setLoading] = useState(false)
-  const { toast } = useToast()
-  const { register: registerUser } = useAuth()
-  const navigate = useNavigate()
-  const { register, handleSubmit } = useForm<RegisterForm>()
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+  const { register: registerUser } = useAuth();
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm<RegisterForm>();
 
   const onSubmit = async (data: RegisterForm) => {
     try {
-      setLoading(true)
+      setLoading(true);
       await registerUser(data.email, data.password);
       toast({
         title: "Success",
         description: "Account created successfully",
-      })
-      navigate("/login")
+      });
+      navigate("/login");
     } catch (error) {
-      console.log("Register error:", error)
+      console.log("Register error:", error);
       toast({
         variant: "destructive",
         title: "Error",
         description: error?.message,
-      })
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary p-4">
@@ -61,14 +61,22 @@ export function Register() {
           <CardDescription>Enter your details to get started</CardDescription>
         </CardHeader>
         <CardContent>
-          <Alert className="mb-6 border-yellow-200 bg-yellow-50 dark:bg-yellow-950/30 dark:border-yellow-900/50 p-4">{ /* pythagora_mocked_data - DO NOT REMOVE THIS COMMENT */}
-            <div className="flex items-center space-x-4">{ /* pythagora_mocked_data - DO NOT REMOVE THIS COMMENT */}
-              <LightbulbIcon className="h-6 w-6 text-yellow-500 dark:text-yellow-400 flex-shrink-0 stroke-[1.5] filter drop-shadow-sm" />{ /* pythagora_mocked_data - DO NOT REMOVE THIS COMMENT */}
-              <AlertDescription className="text-yellow-800 dark:text-yellow-200 flex-1 min-w-0">{ /* pythagora_mocked_data - DO NOT REMOVE THIS COMMENT */}
-                Pythagora: You can use any email/password in the frontend phase{ /* pythagora_mocked_data - DO NOT REMOVE THIS COMMENT */}
-              </AlertDescription>{ /* pythagora_mocked_data - DO NOT REMOVE THIS COMMENT */}
-            </div>{ /* pythagora_mocked_data - DO NOT REMOVE THIS COMMENT */}
-          </Alert>{ /* pythagora_mocked_data - DO NOT REMOVE THIS COMMENT */}
+          <Alert className="mb-6 border-yellow-200 bg-yellow-50 dark:bg-yellow-950/30 dark:border-yellow-900/50 p-4">
+            {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
+            <div className="flex items-center space-x-4">
+              {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
+              <LightbulbIcon className="h-6 w-6 text-yellow-500 dark:text-yellow-400 flex-shrink-0 stroke-[1.5] filter drop-shadow-sm" />
+              {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
+              <AlertDescription className="text-yellow-800 dark:text-yellow-200 flex-1 min-w-0">
+                {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
+                Trybe: You can use any email/password in the frontend phase
+                {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
+              </AlertDescription>
+              {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
+            </div>
+            {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
+          </Alert>
+          {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -111,5 +119,5 @@ export function Register() {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import api from './api';
+import api from "./api";
 
 // Description: Login user functionality
 // Endpoint: POST /api/auth/login
@@ -6,11 +6,11 @@ import api from './api';
 // Response: { accessToken: string, refreshToken: string }
 export const login = async (email: string, password: string) => {
   try {
-    return { accessToken: '123', refreshToken: '123' }; // pythagora_mocked_data - remove when the backend is being implemented
-    const response = await api.post('/api/auth/login', { email, password });
+    return { accessToken: "123", refreshToken: "123" }; // trybe_mocked_data - remove when the backend is being implemented
+    const response = await api.post("/api/auth/login", { email, password });
     return response.data;
   } catch (error) {
-    console.error('Login error:', error);
+    console.error("Login error:", error);
     throw new Error(error?.response?.data?.message || error.message);
   }
 };
@@ -21,8 +21,8 @@ export const login = async (email: string, password: string) => {
 // Response: { email: string }
 export const register = async (email: string, password: string) => {
   try {
-    return { email: 'jake@example.com' }; // pythagora_mocked_data - remove when the backend is being implemented
-    const response = await api.post('/api/auth/register', {email, password});
+    return { email: "jake@example.com" }; // trybe_mocked_data - remove when the backend is being implemented
+    const response = await api.post("/api/auth/register", { email, password });
     return response.data;
   } catch (error) {
     throw new Error(error?.response?.data?.message || error.message);
@@ -35,7 +35,7 @@ export const register = async (email: string, password: string) => {
 // Response: { success: boolean, message: string }
 export const logout = async () => {
   try {
-    return await api.post('/api/auth/logout');
+    return await api.post("/api/auth/logout");
   } catch (error) {
     throw new Error(error?.response?.data?.message || error.message);
   }
