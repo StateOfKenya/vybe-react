@@ -60,42 +60,42 @@ export function About() {
 
   const timeline = [
     {
-      year: "2023",
+      year: "2025",
       month: "March",
       title: "Foundation",
       description:
         "Vybe Tribe was founded by a group of passionate young Kenyans in Nairobi with a vision of unity.",
     },
     {
-      year: "2023",
+      year: "2025",
       month: "June",
       title: "First Project",
       description:
         "Launched our first environmental project - Nairobi River Clean-up Initiative.",
     },
     {
-      year: "2023",
+      year: "2025",
       month: "September",
       title: "Multi-County Expansion",
       description:
         "Expanded operations to 10 counties with over 500 active members.",
     },
     {
-      year: "2023",
+      year: "2025",
       month: "December",
       title: "Political Engagement",
       description:
         "Launched youth voter registration drive across 5 counties, registering over 2,000 new voters.",
     },
     {
-      year: "2024",
+      year: "2025",
       month: "January",
       title: "National Recognition",
       description:
         "Reached 2,847 members across all 47 counties and gained national media attention.",
     },
     {
-      year: "2024",
+      year: "2025",
       month: "March",
       title: "Checheza Mtaani Launch",
       description:
