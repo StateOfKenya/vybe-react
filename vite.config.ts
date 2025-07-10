@@ -16,10 +16,6 @@ export default defineConfig({
         target: "http://localhost:3000",
         changeOrigin: true,
       },
-      "/logs": {
-        target: "http://localhost:4444",
-        changeOrigin: true,
-      },
     },
     allowedHosts: ["localhost", ".vybe.africa"],
     watch: {
