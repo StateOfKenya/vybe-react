@@ -1,42 +1,61 @@
 import api from "./api";
+import { getErrorMessage, logApiError } from "../utils/apiErrorHandler";
 
 // Description: Login user functionality
-// Endpoint: POST /api/auth/login
+// Endpoint: POST /api/v1/auth/login
 // Request: { email: string, password: string }
-// Response: { accessToken: string, refreshToken: string }
+// Response: { access_token: string, token_type: string, refresh_token: string }
 export const login = async (email: string, password: string) => {
   try {
-    return { accessToken: "123", refreshToken: "123" }; // trybe_mocked_data - remove when the backend is being implemented
-    const response = await api.post("/api/auth/login", { email, password });
-    return response.data;
+    const response = await api.post("/api/v1/auth/login", { email, password });
+    // Transform the response to match our application's expected format
+    return {
+      accessToken: response.data.access_token,
+      refreshToken: response.data.refresh_token
+    };
   } catch (error) {
-    console.error("Login error:", error);
-    throw new Error(error?.response?.data?.message || error.message);
+    logApiError(error, "login");
+    throw new Error(getErrorMessage(error));
   }
 };
 
 // Description: Register user functionality
-// Endpoint: POST /api/auth/register
+// Endpoint: POST /api/v1/auth/register
 // Request: { email: string, password: string }
-// Response: { email: string }
+// Response: { id: string, email: string, is_active: boolean }
 export const register = async (email: string, password: string) => {
   try {
-    return { email: "jake@example.com" }; // trybe_mocked_data - remove when the backend is being implemented
-    const response = await api.post("/api/auth/register", { email, password });
+    const response = await api.post("/api/v1/auth/register", { email, password });
     return response.data;
   } catch (error) {
-    throw new Error(error?.response?.data?.message || error.message);
+    logApiError(error, "register");
+    throw new Error(getErrorMessage(error));
   }
 };
 
 // Description: Logout
-// Endpoint: POST /api/auth/logout
+// Endpoint: POST /api/v1/auth/logout
 // Request: {}
 // Response: { success: boolean, message: string }
 export const logout = async () => {
   try {
-    return await api.post("/api/auth/logout");
+    return await api.post("/api/v1/auth/logout");
   } catch (error) {
-    throw new Error(error?.response?.data?.message || error.message);
+    logApiError(error, "logout");
+    throw new Error(getErrorMessage(error));
+  }
+};
+
+// Description: Get current user information
+// Endpoint: GET /api/v1/auth/me
+// Request: Authorization header with Bearer token
+// Response: { id: string, email: string, is_active: boolean }
+export const getCurrentUser = async () => {
+  try {
+    const response = await api.get("/api/v1/auth/me");
+    return response.data;
+  } catch (error) {
+    logApiError(error, "getCurrentUser");
+    throw new Error(getErrorMessage(error));
   }
 };

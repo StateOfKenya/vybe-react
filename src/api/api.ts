@@ -1,9 +1,9 @@
 import axios, { AxiosRequestConfig, AxiosError, InternalAxiosRequestConfig, AxiosInstance } from 'axios';
 import JSONbig from 'json-bigint';
-
-
+import config from '../config';
 
 const localApi = axios.create({
+  baseURL: config.apiBaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -22,12 +22,12 @@ const getApiInstance = (url: string) => {
 };
 
 const isAuthEndpoint = (url: string): boolean => {
-  return url.includes("/api/auth");
+  return url.includes("/api/v1/auth");
 };
 
 // Check if the URL is for the refresh token endpoint to avoid infinite loops
 const isRefreshTokenEndpoint = (url: string): boolean => {
-  return url.includes("/api/auth/refresh");
+  return url.includes("/api/v1/auth/refresh");
 };
 
 const setupInterceptors = (apiInstance: typeof axios) => {
@@ -63,7 +63,7 @@ const setupInterceptors = (apiInstance: typeof axios) => {
             throw new Error('No refresh token available');
           }
 
-          const response = await localApi.post(`/api/auth/refresh`, {
+          const response = await localApi.post(`/api/v1/auth/refresh`, {
             refreshToken,
           });
 
