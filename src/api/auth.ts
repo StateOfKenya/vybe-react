@@ -8,11 +8,7 @@ import { getErrorMessage, logApiError } from "../utils/apiErrorHandler";
 export const login = async (email: string, password: string) => {
   try {
     const response = await api.post("/api/v1/auth/login", { email, password });
-    // Transform the response to match our application's expected format
-    return {
-      accessToken: response.data.access_token,
-      refreshToken: response.data.refresh_token
-    };
+    return response.data;
   } catch (error) {
     logApiError(error, "login");
     throw new Error(getErrorMessage(error));

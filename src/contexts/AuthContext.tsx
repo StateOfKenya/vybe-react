@@ -8,11 +8,16 @@ type User = {
   is_active: boolean;
 };
 
+type AuthResponse = {
+  success: boolean;
+  message: string;
+};
+
 type AuthContextType = {
   isAuthenticated: boolean;
   user: User | null;
-  login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<AuthResponse>;
+  register: (email: string, password: string) => Promise<AuthResponse>;
   logout: () => void;
 };
 
@@ -27,46 +32,51 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     try {
       const response = await apiLogin(email, password);
-      if (response?.refreshToken || response?.accessToken) {
-        localStorage.setItem("refreshToken", response.refreshToken);
-        localStorage.setItem("accessToken", response.accessToken);
+      if (response.success) {
+        localStorage.setItem("refreshToken", response.data.refresh_token);
+        localStorage.setItem("accessToken", response.data.access_token);
         setIsAuthenticated(true);
         
-        // After successful login, fetch user data
         try {
           const userData = await getCurrentUser();
           setUser(userData);
         } catch (userError) {
           console.error("Failed to fetch user data after login:", userError);
         }
+        return { success: true, message: response.message };
       } else {
-        throw new Error('Login failed: Invalid response from server');
+        throw new Error(response.message || 'Login failed: Invalid response from server');
       }
     } catch (error) {
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("accessToken");
       setIsAuthenticated(false);
       setUser(null);
-      throw new Error(error?.message || 'Login failed');
+      const errorMessage = error instanceof Error ? error.message : 'Login failed';
+      return { success: false, message: errorMessage };
     }
   };
 
   const register = async (email: string, password: string) => {
     try {
       const response = await apiRegister(email, password);
-      // After successful registration, we can set the user data
-      // but we don't automatically log them in
-      setUser({
-        id: response.id,
-        email: response.email,
-        is_active: response.is_active
-      });
+      if (response.success) {
+        setUser({
+          id: response.data.id,
+          email: response.data.email,
+          is_active: response.data.is_active
+        });
+        return { success: true, message: response.message };
+      } else {
+        throw new Error(response.message || 'Registration failed');
+      }
     } catch (error) {
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("accessToken");
       setIsAuthenticated(false);
       setUser(null);
-      throw new Error(error?.message || 'Registration failed');
+      const errorMessage = error instanceof Error ? error.message : 'Registration failed';
+      return { success: false, message: errorMessage };
     }
   };
 

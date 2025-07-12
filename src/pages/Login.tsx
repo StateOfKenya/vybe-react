@@ -27,31 +27,74 @@ type LoginForm = {
 
 export function Login() {
   const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState<string>(
+    "Trybe: Enter your credentials to continue"
+  );
+  const [feedbackType, setFeedbackType] = useState<
+    "info" | "error" | "success" | "logging"
+  >("info");
+
   const { toast } = useToast();
   const { login } = useAuth();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<LoginForm>();
 
   const onSubmit = async (data: LoginForm) => {
-    try {
-      setLoading(true);
-      await login(data.email, data.password);
+    setLoading(true);
+    setFeedback("Logging in...");
+    setFeedbackType("logging");
+    const response = await login(data.email, data.password);
+    setLoading(false);
+
+    if (response.success) {
+      setFeedback(response.message);
+      setFeedbackType("success");
       toast({
         title: "Success",
-        description: "Logged in successfully",
+        description: response.message,
       });
       navigate("/");
-    } catch (error) {
-      console.error("Login error:", error.message);
+    } else {
+      setFeedback(response.message);
+      setFeedbackType("error");
       toast({
         variant: "destructive",
         title: "Error",
-        description: error?.message,
+        description: response.message,
       });
-    } finally {
-      setLoading(false);
     }
   };
+
+  const alertConfig = {
+    info: {
+      variant: "default" as const,
+      className:
+        "mb-6 border-yellow-200 bg-yellow-50 dark:bg-yellow-950/30 dark:border-yellow-900/50 p-4",
+      iconClass:
+        "h-6 w-6 text-yellow-500 dark:text-yellow-400 flex-shrink-0 stroke-[1.5] filter drop-shadow-sm",
+      textClass: "text-yellow-800 dark:text-yellow-200 flex-1 min-w-0",
+    },
+    logging: {
+      variant: "default" as const,
+      className: "mb-4",
+      iconClass: "h-4 w-4",
+      textClass: "",
+    },
+    success: {
+      variant: "default" as const,
+      className: "mb-4",
+      iconClass: "h-4 w-4",
+      textClass: "",
+    },
+    error: {
+      variant: "destructive" as const,
+      className: "mb-4",
+      iconClass: "h-4 w-4",
+      textClass: "",
+    },
+  };
+
+  const currentAlertConfig = alertConfig[feedbackType];
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary p-4">
@@ -61,22 +104,17 @@ export function Login() {
           <CardDescription>Enter your credentials to continue</CardDescription>
         </CardHeader>
         <CardContent>
-          <Alert className="mb-6 border-yellow-200 bg-yellow-50 dark:bg-yellow-950/30 dark:border-yellow-900/50 p-4">
-            {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
+          <Alert
+            variant={currentAlertConfig.variant}
+            className={currentAlertConfig.className}
+          >
             <div className="flex items-center space-x-4">
-              {/*trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
-              <LightbulbIcon className="h-6 w-6 text-yellow-500 dark:text-yellow-400 flex-shrink-0 stroke-[1.5] filter drop-shadow-sm" />
-              {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
-              <AlertDescription className="text-yellow-800 dark:text-yellow-200 flex-1 min-w-0">
-                {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
-                Trybe: You can use any email/password in the frontend phase
-                {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
+              <LightbulbIcon className={currentAlertConfig.iconClass} />
+              <AlertDescription className={currentAlertConfig.textClass}>
+                {feedback}
               </AlertDescription>
-              {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
             </div>
-            {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
           </Alert>
-          {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>

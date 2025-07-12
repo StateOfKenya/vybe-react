@@ -27,6 +27,13 @@ type RegisterForm = {
 
 export function Register() {
   const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState<string>(
+    "Trybe: Use a valid email and password to register"
+  );
+  const [feedbackType, setFeedbackType] = useState<
+    "info" | "error" | "success" | "registering"
+  >("info");
+
   const { toast } = useToast();
   const { register: registerUser } = useAuth();
   const navigate = useNavigate();
@@ -35,7 +42,11 @@ export function Register() {
   const onSubmit = async (data: RegisterForm) => {
     try {
       setLoading(true);
+      setFeedback("Creating account...");
+      setFeedbackType("registering");
       await registerUser(data.email, data.password);
+      setFeedback("Account created successfully. You can now log in.");
+      setFeedbackType("success");
       toast({
         title: "Success",
         description: "Account created successfully",
@@ -43,6 +54,8 @@ export function Register() {
       navigate("/login");
     } catch (error) {
       console.log("Register error:", error);
+      setFeedback(error?.message);
+      setFeedbackType("error");
       toast({
         variant: "destructive",
         title: "Error",
@@ -53,6 +66,37 @@ export function Register() {
     }
   };
 
+  const alertConfig = {
+    info: {
+      variant: "default" as const,
+      className:
+        "mb-6 border-yellow-200 bg-yellow-50 dark:bg-yellow-950/30 dark:border-yellow-900/50 p-4",
+      iconClass:
+        "h-6 w-6 text-yellow-500 dark:text-yellow-400 flex-shrink-0 stroke-[1.5] filter drop-shadow-sm",
+      textClass: "text-yellow-800 dark:text-yellow-200 flex-1 min-w-0",
+    },
+    registering: {
+      variant: "default" as const,
+      className: "mb-4",
+      iconClass: "h-4 w-4",
+      textClass: "",
+    },
+    success: {
+      variant: "default" as const,
+      className: "mb-4",
+      iconClass: "h-4 w-4",
+      textClass: "",
+    },
+    error: {
+      variant: "destructive" as const,
+      className: "mb-4",
+      iconClass: "h-4 w-4",
+      textClass: "",
+    },
+  };
+
+  const currentAlertConfig = alertConfig[feedbackType];
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary p-4">
       <Card className="w-full max-w-md">
@@ -61,22 +105,17 @@ export function Register() {
           <CardDescription>Enter your details to get started</CardDescription>
         </CardHeader>
         <CardContent>
-          <Alert className="mb-6 border-yellow-200 bg-yellow-50 dark:bg-yellow-950/30 dark:border-yellow-900/50 p-4">
-            {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
+          <Alert
+            variant={currentAlertConfig.variant}
+            className={currentAlertConfig.className}
+          >
             <div className="flex items-center space-x-4">
-              {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
-              <LightbulbIcon className="h-6 w-6 text-yellow-500 dark:text-yellow-400 flex-shrink-0 stroke-[1.5] filter drop-shadow-sm" />
-              {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
-              <AlertDescription className="text-yellow-800 dark:text-yellow-200 flex-1 min-w-0">
-                {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
-                Trybe: You can use any email/password in the frontend phase
-                {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
+              <LightbulbIcon className={currentAlertConfig.iconClass} />
+              <AlertDescription className={currentAlertConfig.textClass}>
+                {feedback}
               </AlertDescription>
-              {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
             </div>
-            {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
           </Alert>
-          {/* trybe_mocked_data - DO NOT REMOVE THIS COMMENT */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
